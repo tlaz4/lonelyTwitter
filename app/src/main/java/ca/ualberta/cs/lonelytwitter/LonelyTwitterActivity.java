@@ -12,6 +12,7 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -33,7 +34,6 @@ public class LonelyTwitterActivity extends Activity {
 		bodyText = (EditText) findViewById(R.id.body);
 		Button saveButton = (Button) findViewById(R.id.save);
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
-
 		saveButton.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -54,6 +54,29 @@ public class LonelyTwitterActivity extends Activity {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				R.layout.list_item, tweets);
 		oldTweetsList.setAdapter(adapter);
+
+		NormalTweet normalTweet = new NormalTweet("");
+		try {
+			normalTweet.setMessage("Hello World");
+		}
+		catch (TweetTooLongException e){
+			Log.e("Error", "Tweet message too long");
+		}
+
+		ImportantTweet importantTweet1 = new ImportantTweet("Hello World! This is important");
+
+		NormalTweet normalTweet1 = new NormalTweet("This is not important");
+
+		ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
+		tweetList.add(normalTweet);
+		tweetList.add(normalTweet1);
+		tweetList.add(importantTweet1);
+
+		for (Tweet t:
+				tweetList){
+				Log.d("Tweet Polymorphism", t.isImportant().toString());
+		}
+
 	}
 
 	private String[] loadFromFile() {
