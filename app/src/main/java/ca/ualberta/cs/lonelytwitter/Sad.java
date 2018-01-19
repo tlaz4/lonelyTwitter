@@ -13,4 +13,8 @@ public class Sad extends Mood {
     Sad(Date date){
         super(date);
     }
+    
+    public String getName(){
+        return "Sad";
+    }
 }
